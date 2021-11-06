@@ -12,6 +12,8 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int horizpadbar        = 5;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 5;        /* vertical padding for statusbar */
+static const unsigned int colorfultitle  = 1;  /* 0 means title use SchemeTitle and SchemeTitleFloat */
+static const unsigned int colorfultag    = 1;  /* 0 means use SchemeSel for selected tag */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
 static const char *fonts[]          = { "monospace:size=10" };
@@ -22,11 +24,58 @@ static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#005577";
 static char selbgcolor[]            = "#005577";
+static char col_bg[]          = "#1a1b26";
+static char col_dark[]        = "#16161E";
+static char col_fg[]          = "#a9b1d6";
+static char col_black[]       = "#32344a";
+static char col_red[]         = "#f7768e";
+static char col_yellow[]      = "#e0af68";
+static char col_white[]       = "#787c99";
+static char col_br_black[]    = "#444b6a";
+static char col_br_red[]      = "#ff7a93";
+static char col_br_green[]    = "#b9f27c";
+static char col_br_yellow[]   = "#ff9e64";
+static char col_br_blue[]     = "#7da6ff";
+static char col_br_magenta[]  = "#bb9af7";
+static char col_br_cyan[]     = "#0db9d7";
+/*static char col_cyan[]        = "#449dab";
+static char col_blue[]        = "#7aa2f7";
+static char col_green[]       = "#9ece6a";
+static char col_magenta[]     = "#ad8ee6";
+static char col_br_white[]    = "#acb0d0";*/
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+	   [SchemeTag]        = { col_br_black,    col_bg,    col_black },
+       [SchemeTag1]       = { col_fg,          col_dark,  col_black },
+	   [SchemeTag2]       = { col_red,         col_dark,  col_black },
+       [SchemeTag3]       = { col_br_yellow,   col_dark,  col_black },
+        [SchemeTag4]       = { col_br_blue,     col_dark,  col_black },
+        [SchemeTag5]       = { col_br_magenta,  col_dark,  col_black },
+	[SchemeTag6]       = { col_br_cyan,     col_dark,  col_black },
+	[SchemeTag7]       = { col_br_green,    col_dark,  col_black },
+	[SchemeTag8]       = { col_yellow,      col_dark,  col_black },
+	[SchemeTag9]       = { col_br_red,      col_dark,  col_black },
+	[SchemeLayout]     = { col_white,       col_bg,    col_black },
+	[SchemeTitle]      = { col_fg,          col_bg,    col_black },
+	[SchemeTitleFloat] = { col_br_blue,     col_bg,    col_black },
+	[SchemeTitle1]     = { col_fg,          col_bg,    col_black },
+	[SchemeTitle2]     = { col_red,         col_bg,    col_black },
+        [SchemeTitle3]     = { col_br_yellow,   col_bg,    col_black },
+        [SchemeTitle4]     = { col_br_blue,     col_bg,    col_black },
+        [SchemeTitle5]     = { col_br_magenta,  col_bg,    col_black },
+	[SchemeTitle6]     = { col_br_cyan,     col_bg,    col_black },
+	[SchemeTitle7]     = { col_br_green,    col_bg,    col_black },
+	[SchemeTitle8]     = { col_yellow,      col_bg,    col_black },
+	[SchemeTitle9]     = { col_br_red,      col_bg,    col_black },
 };
+static const int tagschemes[] = { SchemeTag1, SchemeTag2, SchemeTag3,
+                                  SchemeTag4, SchemeTag5, SchemeTag6,
+                                  SchemeTag7, SchemeTag8, SchemeTag9 };
+static const int titleschemes[] = { SchemeTitle1, SchemeTitle2, SchemeTitle3,
+                                    SchemeTitle4, SchemeTitle5, SchemeTitle6,
+                                    SchemeTitle7, SchemeTitle8, SchemeTitle9 };
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -129,7 +178,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ShiftMask,				XK_n,      togglecolorfultag, {0} },
+	{ MODKEY|ControlMask, 			XK_n,      togglecolorfultitle, {0} },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
